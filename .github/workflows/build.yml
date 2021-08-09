@@ -1,6 +1,11 @@
 name: Go
 
 on:
+  workflow_dispatch:
+    inputs:
+      releaseVersion:
+        description: 'version on release'
+        required: false
   push:
     branches: [ master ]
   pull_request:
@@ -22,7 +27,7 @@ jobs:
       run: mkdir release|| go build -v ./... -o ./release/tidy-files-script-linux-64
 
     - name: Create a Release
-#      if: ${{ env.RELEASE_VERSION != '' }}
+      if: ${{ github.event.inputs.releaseVersion != '' }}
       uses: elgohr/Github-Release-Action@main
       env:
         GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
