@@ -6,7 +6,7 @@ import (
 	"path"
 	"regexp"
 	"strings"
-	"tagClassification/src/config"
+	"tidy-files-script/config"
 )
 
 // 获取相对路径
@@ -15,8 +15,6 @@ var currentPath, _ = os.Getwd()
 func main() {
 	config.InitLog()
 	log.SetFormatter(config.JsonLogFormatter())
-
-	currentPath = "Z:\\Video"
 
 	// 按照文件类型分类
 	tagDirMap, fileList := scanDirTagAndFileList(currentPath)

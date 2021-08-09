@@ -1,4 +1,4 @@
-module tagClassification
+module tidy-files-script
 
 require github.com/sirupsen/logrus v1.8.1
 
