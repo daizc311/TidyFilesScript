@@ -13,3 +13,4 @@
 *.log
 # golang
 /pkg
+http-client.private.env.json

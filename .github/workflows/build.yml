@@ -5,6 +5,8 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+  release:
+    branches: [ master ]
 
 jobs:
 
@@ -21,14 +23,10 @@ jobs:
     - name: Build
       run: mkdir release|| go build -v ./... -o ./release/
 
-
-    - name: Test
-      run: echo ${{ env.RELEASE_VERSION != '' }}
-
-#     - name: Create a Release
-#       if: ${{ env.RELEASE_VERSION != '' }}
-#       uses: elgohr/Github-Release-Action@master
-#       env:
-#         GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
-#       with:
-#         args: MyReleaseMessage
+    - name: Create a Release
+#      if: ${{ env.RELEASE_VERSION != '' }}
+      uses: elgohr/Github-Release-Action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+      with:
+        args: "RELEASE"
