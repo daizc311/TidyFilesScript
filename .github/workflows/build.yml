@@ -1,0 +1,33 @@
+name: Go
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  release:
+    runs-on: ${{ build.os }}
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.16
+
+    - name: Build
+      run: go build -v ./... -o ./release
+      
+    - name: Test
+      run: echo ${{ env.RELEASE_VERSION != '' }}
+
+#     - name: Create a Release
+#       if: ${{ env.RELEASE_VERSION != '' }}
+#       uses: elgohr/Github-Release-Action@master
+#       env:
+#         GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+#       with:
+#         args: MyReleaseMessage
