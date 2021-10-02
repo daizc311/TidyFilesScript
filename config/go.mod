@@ -1,4 +1,4 @@
-module github.com/daizc311/tidy-files-script/config
+module github.com/daizc311/TidyFilesScript/config
 
 require github.com/sirupsen/logrus v1.8.1
 

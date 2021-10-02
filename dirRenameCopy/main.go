@@ -5,7 +5,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"os"
 	"strings"
-	"tidy-files-script/config"
+	"github.com/daizc311/TidyFilesScript/config"
 	"time"
 )
 
