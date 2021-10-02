@@ -2,10 +2,11 @@ package main
 
 import (
 	"container/list"
+	"github.com/daizc311/TidyFilesScript/config"
 	log "github.com/sirupsen/logrus"
 	"os"
 	"strings"
-	"github.com/daizc311/TidyFilesScript/config"
+	"syscall"
 	"time"
 )
 
@@ -23,15 +24,13 @@ var suffixList = func() *list.List {
 func main() {
 	config.InitLog()
 	log.SetFormatter(config.JsonLogFormatter())
-	currentPath = "F:\\test"
 	scanDirList(currentPath)
-
 }
 
 func getSuffix(fileName string) string {
 	for i := suffixList.Front(); i != nil; i = i.Next() {
 
-		if strings.HasSuffix(fileName, i.Value.(string)) {
+		if strings.HasSuffix(strings.ToLower(fileName), i.Value.(string)) {
 			return i.Value.(string)
 		}
 	}
@@ -63,9 +62,18 @@ func scanDirList(dirPath string) {
 						continue
 					}
 					moveFile(originalFilePath, targetFilePath)
+					rmDir(path)
 				}
 			}
 		}
+	}
+}
+
+func rmDir(path string) {
+	log.Infof("开始删除目录=>\n目标路径: %s", path)
+	err := syscall.Rmdir(path)
+	if err != nil {
+		log.Errorf("删除目录失败: %s", err.Error())
 	}
 }
 
@@ -78,12 +86,14 @@ func moveFile(originalFilePath string, targetFilePath string) {
 }
 
 func getTargetDirByDate(path string, now time.Time) (string, error) {
+
 	dateStr := now.Format("20060102")
 	dirPath := path + string(os.PathSeparator) + dateStr
 
 	var _, err = os.Stat(dirPath)
 	if err != nil {
 		if os.IsNotExist(err) {
+			log.Infof("目录不存在，创建输出目录=>\n目标路径: %s", dirPath)
 			err := os.Mkdir(dirPath, os.ModePerm)
 			if err != nil {
 				return dirPath, err

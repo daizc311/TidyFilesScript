@@ -1,12 +1,12 @@
 package main
 
 import (
+	"github.com/daizc311/TidyFilesScript/config"
 	log "github.com/sirupsen/logrus"
 	"os"
 	"path"
 	"regexp"
 	"strings"
-	"tidy-files-script/config"
 )
 
 // 获取相对路径
